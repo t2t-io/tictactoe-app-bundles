@@ -1,0 +1,199 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+import psutil
+import os
+import sys
+import json
+import signal
+import traceback
+from threading import Thread
+from queue import Queue
+from time import sleep
+
+# Helper classes and functions
+#
+from sensor_util import SensorData
+import ps_sensors
+import proc_sensors
+import process_sensors
+import exec_sensors
+from transform import toe3_serializer
+
+
+# Global variables
+#
+index = 1
+workers = []
+CHANNEL_DEBUG = sys.stdout
+CHANNEL_DATA = sys.stderr
+
+
+def DEBUG(message):
+    global CHANNEL_DEBUG
+    CHANNEL_DEBUG.write("\033[96mDBG\033[00m: %s\n" % (message))
+    CHANNEL_DEBUG.flush()
+
+
+def signal_handler(signal, frame):
+    global workers
+    DEBUG("")
+    DEBUG("You pressed Ctrl + C, force all running threads to exit")
+    [ w.stop() for w in workers ]
+    [ w.join() for w in workers ]
+    DEBUG("All threads are shutdown gracefully...")
+
+
+class SensorWorker(Thread):
+    def __init__(self, sensor, output_queue):
+        super().__init__()
+        self._sensor = sensor
+        self._output = output_queue
+        self._continue = True
+        self._terminated = False
+
+    def stop(self):
+        if not self._terminated:
+            self._continue = False
+            self.log("%s: stop()" % (self._sensor.__class__.__name__))
+
+    def perform(self):
+        try:
+            data = self._sensor.data
+            self._output.put(data)
+        except Exception as e:
+            # print(traceback.format_exc())
+            # print(e)
+            pass
+
+    def log(self, message):
+        DEBUG(message)
+
+    def run(self):
+        t = self._sensor.preferred_period
+        x = int(t / 10)
+        gap = 1 if x <= 0 else x
+        gap = 3 if gap > 3 else gap
+        x = t
+        while self._continue:
+            if x >= t:
+                self.perform()
+                x = 0
+            else:
+                sleep(gap)
+                x = x + gap
+        self._terminated = True
+        self.log("%s: run() exit." % (self._sensor.__class__.__name__))
+
+
+class ConsoleConsumer(Thread):
+    def __init__(self, std, data_queue, serializer):
+        super().__init__()
+        self._serializer = serializer
+        self._data_queue = data_queue
+        self._std = std
+        self._continue = True
+        self._end_obj = object()
+
+    def stop(self):
+        self._continue = False
+        self._data_queue.put(self._end_obj)
+
+    def run(self):
+        while self._continue:
+            data_list = self._data_queue.get()
+            if data_list == self._end_obj:
+                break
+            text = self._serializer(data_list)
+            if text:
+                self._std.write(text)
+                self._std.flush()
+
+def main():
+    # Register SIG-INT and C-c events
+    signal.signal(signal.SIGINT, signal_handler)
+
+    def sensor_web_csv_serializer(sensor_data):
+        return "DAT: %s\n" % (sensor_data.to_line('\t'))
+
+    def mcs4u_serializer(sensor_data):
+        global index
+        index = index + 1
+        index = 0 if index > 0xFFFF else index
+        text = hex(index)[2:].zfill(4).upper()
+        return "!\t%s\tF\t%s\n" % (text, sensor_data.to_line('\t'))
+
+    def mcs4u_list_serializer(data_list):
+        xs = [ mcs4u_serializer(x) for x in data_list ]
+        return "".join(xs)
+
+    def debug_serializer(sensor_data):
+        print("sensor_data => %s" % (sensor_data))
+        s = sensor_data
+        return "%s/%s/%s/%s\t%s%s\n" % (
+            s.board_type, s.board_id, s.sensor, s.data_type,
+            s.value, "" if s.unit_length is None else s.unit_length
+            )
+
+    def debug_list_serializer(data_list):
+        xs = [ debug_serializer(x) for x in data_list ]
+        return "".join(xs)
+
+    def json_serializer(data_list):
+        xs = [ "%s" % (x) for x in data_list ]
+        # xs = [ json.dumps(x) for x in data_list ]
+        xs = [ "\t%s" % (x) for x in xs ]
+        xs = "\n".join(xs)
+        return "data:\n%s\n" % (xs)
+
+
+
+    global CHANNEL_DEBUG, CHANNEL_DATA
+    if 'USE_STDOUT_AS_DATA' in os.environ and os.environ['USE_STDOUT_AS_DATA'] == "true":
+        CHANNEL_DATA = sys.stdout
+        CHANNEL_DEBUG = sys.stderr
+
+    # Message Queue between producers and one consumer
+    q = Queue()
+
+    # Producers
+    sensor_modules = [
+        ps_sensors,
+        proc_sensors,
+        process_sensors,
+        exec_sensors
+    ]
+    sensor_modules = [ (x.SensorClasses if hasattr(x, 'SensorClasses') else []) for x in sensor_modules ]
+    sensor_classes = [ clazz for sm in sensor_modules for clazz in sm ]
+    for c in sensor_classes:
+        s = c()
+        s.set_logger(DEBUG)
+        t = s.preferred_period
+        if t < 0:
+            name_tokens = s.get_classname_tokens()
+            name = "-".join(name_tokens)
+            DEBUG("%s is disabled with period (-1)" % (name))
+        else:
+            w = SensorWorker(s, q)
+            w.start()
+            workers.append(w)
+
+    # Consumer
+    # w = ConsoleConsumer(CHANNEL_DATA, q, mcs4u_list_serializer)
+    # w = ConsoleConsumer(CHANNEL_DATA, q, sensor_web_csv_serializer)
+    # w = ConsoleConsumer(CHANNEL_DATA, q, debug_list_serializer)
+    w = ConsoleConsumer(CHANNEL_DATA, q, toe3_serializer)
+    # w = ConsoleConsumer(CHANNEL_DATA, q, json_serializer)
+    w.start()
+    workers.append(w)
+
+    for w in workers:
+        w.join()
+
+    sys.exit(0)
+
+
+# Entry point
+#
+if __name__ == '__main__':
+    main()

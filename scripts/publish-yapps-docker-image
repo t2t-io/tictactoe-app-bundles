@@ -1,0 +1,82 @@
+#!/bin/bash
+#
+
+function initialize_variables {
+	export APP_VERSION=$1
+	[ "" == "${APP_VERSION}" ] && echo "please specify app version for docker image building" && exit 1
+	export CURRENT=$(pwd)
+	cd $(dirname $0)
+	export APP_NAME=$(basename $(pwd))
+	cd ..
+	export APP_TYPE=$(basename $(pwd))
+	cd ..
+	export TOP_DIR=$(pwd)
+	export REPO_NAME=$(basename ${TOP_DIR})
+	export APP_DIR=${TOP_DIR}/${APP_TYPE}/${APP_NAME}
+
+	export DOCKER_USER_NAME=$(echo ${REPO_NAME} | tr '-' '\n' | head -n1)
+	export DOCKER_IMAGE_NAME="${APP_TYPE}.${APP_NAME}"
+	export DOCKER_IMAGE_FULLNAME="${DOCKER_USER_NAME}/${DOCKER_IMAGE_NAME}"
+	
+	echo "CURRENT = ${CURRENT}"
+	echo "TOP_DIR = ${TOP_DIR}"
+	echo "APP_DIR = ${APP_DIR}"
+	echo "APP_TYPE = ${APP_TYPE}"
+	echo "APP_NAME = ${APP_NAME}"
+	echo "APP_VERSION = ${APP_VERSION}"
+	echo "DOCKER_USER_NAME = ${DOCKER_USER_NAME}"
+	echo "DOCKER_IMAGE_NAME = ${DOCKER_IMAGE_NAME}"
+	echo "DOCKER_IMAGE_FULLNAME = ${DOCKER_IMAGE_FULLNAME}"
+}
+
+function build_and_publish {
+	local APP_BUNDLE_TYPE=$1
+	local APP_TMP_DIR="/tmp/docker-${APP_NAME}-${APP_BUNDLE_TYPE}"
+	local COMMAND=""
+	[ ! -f "${APP_DIR}/${APP_BUNDLE_TYPE}/package.json" ] && echo "missing ${APP_DIR}/${APP_BUNDLE_TYPE}/package.json" && return 0
+
+	echo "preparing temporary directory for ${APP_NAME}/${APP_BUNDLE_TYPE} ..."
+	rm -rf ${APP_TMP_DIR}
+	mkdir -p ${APP_TMP_DIR}
+	cp -R ${APP_DIR}/${APP_BUNDLE_TYPE}/* ${APP_TMP_DIR}/
+	cp ${APP_DIR}/Dockerfile ${APP_TMP_DIR}/
+
+	echo "clean-up unnecessary files"
+	find ${APP_TMP_DIR} -name '*.pyc' | xargs rm -vf | awk '{printf "\t%s\n", $0}'
+	find ${APP_TMP_DIR} -type d -name '__pycache__' | xargs -I{} sh -c "rm -rvf {}" | awk '{printf "\t%s\n", $0}'
+
+	local IMAGE_LATEST="${DOCKER_IMAGE_FULLNAME}:latest-${APP_BUNDLE_TYPE}"
+	local IMAGE_CURRENT="${DOCKER_IMAGE_FULLNAME}:${APP_VERSION}-${APP_BUNDLE_TYPE}"
+	docker inspect ${IMAGE_CURRENT} > /dev/null 2>&1
+	if [ "0" == "$?" ]; then
+		echo "delete previous docker image => ${IMAGE_CURRENT}"
+		COMMAND="docker rmi ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+	fi
+
+	docker inspect ${IMAGE_LATEST} > /dev/null 2>&1
+	if [ "0" == "$?" ]; then
+		echo "delete previous docker image => ${IMAGE_LATEST}"
+		COMMAND="docker rmi ${IMAGE_LATEST}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+	fi
+
+	echo "build docker image"
+	COMMAND="docker build -t ${IMAGE_LATEST} ${APP_TMP_DIR}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+	COMMAND="docker tag ${IMAGE_LATEST} ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+
+	echo "publish docker images"
+	COMMAND="docker push ${IMAGE_LATEST}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+	COMMAND="docker push ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+}
+
+
+function build_all_images {
+	for bundle in atomic minized raw; do
+		build_and_publish ${bundle}
+	done
+	docker rmi ${DOCKER_IMAGE_FULLNAME}:latest
+	docker tag ${DOCKER_IMAGE_FULLNAME}:latest-atomic ${DOCKER_IMAGE_FULLNAME}:latest
+	docker push ${DOCKER_IMAGE_FULLNAME}:latest
+}
+
+initialize_variables $@
+build_all_images
