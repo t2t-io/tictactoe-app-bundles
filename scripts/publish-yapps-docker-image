@@ -47,20 +47,9 @@ function build_and_publish {
 
 	local IMAGE_LATEST="${DOCKER_IMAGE_FULLNAME}:latest-${APP_BUNDLE_TYPE}"
 	local IMAGE_CURRENT="${DOCKER_IMAGE_FULLNAME}:${APP_VERSION}-${APP_BUNDLE_TYPE}"
-	docker inspect ${IMAGE_CURRENT} > /dev/null 2>&1
-	if [ "0" == "$?" ]; then
-		echo "delete previous docker image => ${IMAGE_CURRENT}"
-		COMMAND="docker rmi ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
-	fi
-
-	docker inspect ${IMAGE_LATEST} > /dev/null 2>&1
-	if [ "0" == "$?" ]; then
-		echo "delete previous docker image => ${IMAGE_LATEST}"
-		COMMAND="docker rmi ${IMAGE_LATEST}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
-	fi
 
 	echo "build docker image"
-	COMMAND="docker build -t ${IMAGE_LATEST} ${APP_TMP_DIR}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
+	COMMAND="docker build -q -t ${IMAGE_LATEST} ${APP_TMP_DIR}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
 	COMMAND="docker tag ${IMAGE_LATEST} ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
 
 	echo "publish docker images"
@@ -70,10 +59,10 @@ function build_and_publish {
 
 
 function build_all_images {
+	docker images | grep "^${DOCKER_IMAGE_FULLNAME}" | awk '{printf "%s:%s\n", $1, $2}' | xargs -I{} sh -c "docker rmi {}"
 	for bundle in atomic minized raw; do
 		build_and_publish ${bundle}
 	done
-	docker rmi ${DOCKER_IMAGE_FULLNAME}:latest
 	docker tag ${DOCKER_IMAGE_FULLNAME}:latest-atomic ${DOCKER_IMAGE_FULLNAME}:latest
 	docker push ${DOCKER_IMAGE_FULLNAME}:latest
 }
