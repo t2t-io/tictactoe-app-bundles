@@ -7,7 +7,7 @@
   },
   "description": "N/A",
   "name": "dummy-web",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "node": "0.10.x",
     "npm": "1.4.x"
