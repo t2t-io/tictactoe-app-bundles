@@ -1,7 +1,7 @@
 ---
 template: article
-title: Public Archives / Mirrors
-sitename: TicTacToe App Bundles
+title: TicTacToe App Bundles
+sitename: TicTacToe
 ---
 
 ## TOE/Yapps
