@@ -57,7 +57,6 @@ function build_and_publish {
 	COMMAND="docker push ${IMAGE_CURRENT}"; echo ${COMMAND}; $BASH -c "${COMMAND}"
 }
 
-
 function build_all_images {
 	docker images | grep "^${DOCKER_IMAGE_FULLNAME}" | awk '{printf "%s:%s\n", $1, $2}' | xargs -I{} sh -c "docker rmi {}"
 	for bundle in atomic minized raw; do
@@ -67,5 +66,22 @@ function build_all_images {
 	docker push ${DOCKER_IMAGE_FULLNAME}:latest
 }
 
+function cleanup {
+	[ "true" == "${CLEAN_AFTER_BUILD}" ] && docker images | grep "^${DOCKER_IMAGE_FULLNAME}" | awk '{printf "%s:%s\n", $1, $2}' | xargs -I{} sh -c "docker rmi {}"
+}
+
+function notify_slack {
+	[ "" == "${SLACK_NOTIFY_URL}" ] && return 0
+	local USERNAME="agent"
+	local EMOJI=":ghost:"
+	local MSG_FILE=$(mktemp /tmp/XXXXXX)
+	echo "Publish images for \`${APP_TYPE}.${APP_NAME}\` *${APP_VERSION}* to DockerHub/<https://hub.docker.com/r/${DOCKER_IMAGE_FULLNAME}/tags/|${DOCKER_IMAGE_FULLNAME}>." > ${MSG_FILE}
+	http --check-status --ignore-stdin ${SLACK_NOTIFY_URL} text=@${MSG_FILE} channel="${SLACK_NOTIFY_CHANNEL}" username=${USERNAME} icon_emoji="${EMOJI}" > /dev/null
+	rm -f ${MSG_FILE}
+
+}
+
 initialize_variables $@
 build_all_images
+notify_slack
+cleanup
