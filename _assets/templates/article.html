@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>{{.Doc.title}}</title>
+
+        <link rel="stylesheet" type="text/css" href="/_assets/styles/markdown10.css" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/railscasts.min.css">
+		<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/monokai-sublime.min.css"> -->
+    </head>
+    <body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+		<script>hljs.initHighlightingOnLoad();</script>
+        <header>
+            <a href="/"><h1 class="page-title">{{.Doc.sitename}}</h1></a>
+        </header>
+        <article>
+            <h1>{{.Doc.title}}</h1>
+            {{.Doc.body}}
+        </article>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+0.0.0.0:3000
+
+browse
+
+markdown / {
+    template article _assets/templates/article.html
+    template index _assets/templates/index.html
+}
+
+log /var/log/caddy/tictactoe-app-bundles-t2t-io.access.log {
+	rotate {
+		size	100 # Rotate after 100 MB
+		keep	10
+	}
+}
