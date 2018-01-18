@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff   815880 Jan 19 01:46 ./atomic/dummy-web/app/bundle.js
+-rw-r--r--  1 yagamy  staff   737171 Jan 19 01:46 ./atomic/dummy-web/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1012199 Jan 19 01:46 ./minized/dummy-web/app/bundle.js
+-rw-r--r--  1 yagamy  staff   738974 Jan 19 01:46 ./minized/dummy-web/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1584994 Jan 19 01:46 ./raw/dummy-web/app/bundle.js
+-rw-r--r--  1 yagamy  staff  2053636 Jan 19 01:46 ./raw/dummy-web/app/bundle.js.map
