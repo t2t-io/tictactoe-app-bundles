@@ -1,0 +1,130 @@
+{
+  "web": {
+    "host": "0.0.0.0",
+    "port": 6040,
+    "api": 3,
+    "headless": true,
+    "express_partial_response": false,
+    "express_method_overrid": false,
+    "express_multer": false
+  },
+  "communicator": {
+    "verbose": false,
+    "connections": {
+      "ps_s_data": {
+        "enabled": true,
+        "url": "tcp://127.0.0.1:6022",
+        "channel": null,
+        "broadcast": false
+      },
+      "ps_p_data": {
+        "enabled": true,
+        "url": "tcp://127.0.0.1:6023",
+        "channel": null,
+        "broadcast": false
+      },
+      "sb0": {
+        "enabled": false,
+        "url": "tcp://127.0.0.1:10011",
+        "channel": null,
+        "broadcast": false
+      },
+      "bm0": {
+        "enabled": false,
+        "url": "tcp://127.0.0.1:10014",
+        "channel": null,
+        "broadcast": false
+      }
+    }
+  },
+  "sensorweb3-client": {
+    "verboses": {
+      "sensor_updated": false,
+      "peripheral_updated": true,
+      "actuator_performed": false,
+      "blemo_push": true,
+      "invoke_webapi": true
+    },
+    "enabled": true,
+    "wss": {
+      "server": "http://127.0.0.1:6020",
+      "user": "admin",
+      "token": "hello",
+      "verbose": false,
+      "wsc_opts": {},
+      "client_opts": {
+        "blemo": {
+          "pipe": "bm0"
+        }
+      }
+    },
+    "tcp": {
+      "sensor": "ps_s_data",
+      "peripheral": "ps_p_data"
+    }
+  },
+  "tic-client": {
+    "dg": {
+      "enabled": true,
+      "verbose": false,
+      "hub": "https://hub3.cestec.jp",
+      "check_interval": 180,
+      "pack_interval": 20
+    },
+    "dm": {
+      "enabled": true,
+      "verbose": false,
+      "server": "https://tic-dm.t2t.io",
+      "use_sn_as_id": false
+    }
+  },
+  "agent-manager": {
+    "verbose": false,
+    "preloaded_agents": [
+      "smith"
+    ],
+    "bluetooth_modems": [
+      {
+        "prefix": "*",
+        "binary": true
+      },
+      {
+        "prefix": "&",
+        "binary": false
+      }
+    ],
+    "agent_settings": {
+      "TestAgent1": {
+        "aaa": true,
+        "bbb": 10,
+        "ccc": "hello"
+      },
+      "TestAgent2": {
+        "aaa": false,
+        "bbb": 99,
+        "ccc": "world"
+      },
+      "Smith": {
+        "aaa": true,
+        "bbb": 88.6,
+        "ccc": "great"
+      }
+    }
+  },
+  "system-helpers": {
+    "helpers": {
+      "regular-gc": {
+        "period": 180
+      }
+    }
+  },
+  "filecollector-client": {
+    "verbose": true,
+    "forwards": [
+      "https://conscious-rest.cestec.jp"
+    ]
+  },
+  "system-info": {
+    "remote": "127.0.0.1"
+  }
+}
