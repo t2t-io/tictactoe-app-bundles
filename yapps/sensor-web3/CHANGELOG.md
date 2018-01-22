@@ -1,3 +1,16 @@
+### 3.5.2
+
+- Improve `-o` command-line option to support base64-encoded json string. For example, `-o ^communicator.connections.uno:ewogICJlbmFibGVkIjogdHJ1ZSwKICAidXJsIjogInRjcDovLzEuMS4xLjE6MzAiLAogICJjaGFubmVsIjogbnVsbCwKICAiYnJvYWRjYXN0IjogZmFsc2UKfQo=` is to set `communicator.connections.uno` with following json object:
+
+```json
+{
+  "enabled": true,
+  "url": "tcp://1.1.1.1:30",
+  "channel": null,
+  "broadcast": false
+}
+```
+
 ### 3.5.1
 
 - Yapps supports `-o` command-line option to assign JSON object into app's configs.
