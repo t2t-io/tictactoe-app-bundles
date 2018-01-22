@@ -22,18 +22,6 @@
         "url": "tcp://127.0.0.1:6023",
         "channel": null,
         "broadcast": false
-      },
-      "sb0": {
-        "enabled": false,
-        "url": "tcp://127.0.0.1:10011",
-        "channel": null,
-        "broadcast": false
-      },
-      "bm0": {
-        "enabled": false,
-        "url": "tcp://127.0.0.1:10014",
-        "channel": null,
-        "broadcast": false
       }
     }
   },

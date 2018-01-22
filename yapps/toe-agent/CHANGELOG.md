@@ -1,3 +1,7 @@
+### 0.4.2
+
+- Yapps supports `-o` command-line option to assign JSON object into app's configs.
+
 ### 0.4.1
 
 - Fix dm-client crash when missing token in `/tmp/ttt.system` (as system information).

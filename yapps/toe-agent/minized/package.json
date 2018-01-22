@@ -7,7 +7,7 @@
   },
   "description": "N/A",
   "name": "toe-agent",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "engines": {
     "node": "0.10.x",
     "npm": "1.4.x"

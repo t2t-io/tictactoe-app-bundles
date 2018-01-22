@@ -97473,7 +97473,7 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
     return process.exit(code);
   };
   applyCmdConfig = function(settings, type){
-    var i$, len$, s, tokens, prop, value, names, lastName, config, j$, len1$, n, results$ = [];
+    var i$, len$, s, tokens, prop, value, names, lastName, config, j$, len1$, n, xs, text, results$ = [];
     if (!settings) {
       return;
     }
@@ -97501,6 +97501,9 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
         config = config[n];
       }
       switch (type) {
+      case "object":
+        config[lastName] = JSON.parse(value);
+        break;
       case "string":
         config[lastName] = value;
         break;
@@ -97516,7 +97519,12 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       default:
         config[lastName] = value;
       }
-      results$.push(INFO("applied " + prop + " = " + config[lastName]));
+      xs = config[lastName];
+      text = xs + "";
+      if ('object' === typeof xs) {
+        text = JSON.stringify(xs);
+      }
+      results$.push(INFO("applied " + prop + " = " + xs));
     }
     return results$;
   };
@@ -97544,7 +97552,7 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
   loadConfig = function(name, helpers){
     var resource, deployConfig, opt, argv, ref$, json, text, source, config, BOARD_PROFILE_ENV, YAPPS_ENV, deployEnvironment, context, error, output;
     resource = helpers.resource, deployConfig = helpers.deployConfig;
-    opt = optimist.usage('Usage: $0').alias('c', 'config').describe('c', 'the configuration set, might be default, bbb0, ...')['default']('c', 'default').alias('d', 'deployment').describe('d', 'deployment mode or not')['default']('d', false).alias('b', 'config_bool').describe('b', 'overwrite a configuration with boolean value, e.g. -b "system.influxServer.secure=false"').alias('s', 'config_string').describe('s', 'overwrite a configuration with boolean value, e.g. -b "system.influxServer.user=smith"').alias('i', 'config_int').describe('i', 'overwrite a configuration with int value, e.g. -b "behavior.notify.influxPeriod=smith"').alias('a', 'config_str_array').describe('a', 'overwrite a configuration with array of strings with delimiter character `COMMA`, e.g. -b "system.influxServer.clusters=aa.test.net,bb.test.net,cc.test.net"').alias('v', 'verbose').describe('v', 'verbose message output (level is changed to `debug`)')['default']('v', false).alias('q', 'quiet').describe('q', 'disable logging outputs to local file, but still outputs to stderr')['default']('q', false).boolean(['h', 'v']);
+    opt = optimist.usage('Usage: $0').alias('c', 'config').describe('c', 'the configuration set, might be default, bbb0, ...')['default']('c', 'default').alias('d', 'deployment').describe('d', 'deployment mode or not')['default']('d', false).alias('b', 'config_bool').describe('b', 'overwrite a configuration with boolean value, e.g. -b "system.influxServer.secure=false"').alias('s', 'config_string').describe('s', 'overwrite a configuration with boolean value, e.g. -b "system.influxServer.user=smith"').alias('i', 'config_int').describe('i', 'overwrite a configuration with int value, e.g. -b "behavior.notify.influxPeriod=smith"').alias('a', 'config_str_array').describe('a', 'overwrite a configuration with array of strings with delimiter character `COMMA`, e.g. -b "system.influxServer.clusters=aa.test.net,bb.test.net,cc.test.net"').alias('o', 'config_object').describe('o', 'overwrite a configuration with json object string, e.g. -b "system.influxServer.connections.ifdb999={"url":"tcp://192.168.1.110:6020","enabled":false}"').alias('v', 'verbose').describe('v', 'verbose message output (level is changed to `debug`)')['default']('v', false).alias('q', 'quiet').describe('q', 'disable logging outputs to local file, but still outputs to stderr')['default']('q', false).boolean(['h', 'v']);
     argv = global.argv = opt.argv;
     if (argv.h) {
       opt.showHelp();
@@ -97555,6 +97563,7 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       return ERR_EXIT("failed to load " + argv.config, null, 1);
     }
     global.config = json;
+    applyCmdConfig(argv.o, "object");
     applyCmdConfig(argv.s, "string");
     applyCmdConfig(argv.i, "integer");
     applyCmdConfig(argv.b, "boolean");
