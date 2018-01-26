@@ -1,0 +1,73 @@
+{
+  "sensorweb-uploader": {
+    "enabled": true,
+    "verbose": true,
+    "pack_interval_min": 10,
+    "pack_interval_max": 600,
+    "pack_interval_incremental": 20,
+    "upload_interval": 5,
+    "upload_precheck_connectivity": true,
+    "upload_latest_first": true,
+    "upload_restart_timeout": 3600,
+    "hub": {
+      "base": "https://hub.dhvac.io",
+      "version": 1
+    },
+    "toe3": {
+      "enabled": true,
+      "verbose": true,
+      "hub": "https://hub3.dhvac.io",
+      "check_interval": 180000
+    }
+  },
+  "sensorweb-client": {
+    "url": "http://127.0.0.1:6020",
+    "namespace": "storage",
+    "broadcast": "always",
+    "verbose": true
+  },
+  "actuatorweb-client": {
+    "url": "http://127.0.0.1:6020",
+    "api": 1,
+    "verbose": true
+  },
+  "sock": {
+    "servers": {
+      "commander": {
+        "uri": "tcp://0.0.0.0:9010",
+        "line": true
+      }
+    }
+  },
+  "communicator": {
+    "verbose": false,
+    "connections": {
+      "nordic0": {
+        "url": "tcp://127.0.0.1:10011",
+        "channel": null
+      },
+      "sensorboard0": {
+        "url": "tcp://127.0.0.1:10014",
+        "channel": null
+      }
+    }
+  },
+  "system-helpers": {
+    "helpers": {
+      "regular-gc": {
+        "period": 180
+      }
+    }
+  },
+  "registry-client": {
+    "uri": "https://registry.dhvac.io",
+    "verbose": true,
+    "period": 30
+  },
+  "filecollector-client": {
+    "verbose": true,
+    "forwards": [
+      "https://dhvac-rest.dhvac.io"
+    ]
+  }
+}
