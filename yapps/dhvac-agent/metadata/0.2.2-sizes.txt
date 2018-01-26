@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff  1196083 Jan 26 23:29 ./atomic/dhvac-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  1403784 Jan 26 23:29 ./atomic/dhvac-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1550072 Jan 26 23:29 ./minized/dhvac-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  1406908 Jan 26 23:29 ./minized/dhvac-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  2711742 Jan 26 23:28 ./raw/dhvac-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  3415136 Jan 26 23:28 ./raw/dhvac-agent/app/bundle.js.map

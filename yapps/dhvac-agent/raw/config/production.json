@@ -21,10 +21,11 @@
     }
   },
   "sensorweb-client": {
+    "enabled": true,
+    "verbose": false,
     "url": "http://127.0.0.1:6020",
     "namespace": "storage",
-    "broadcast": "always",
-    "verbose": true
+    "broadcast": "always"
   },
   "actuatorweb-client": {
     "url": "http://127.0.0.1:6020",

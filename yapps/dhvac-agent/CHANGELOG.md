@@ -1,3 +1,7 @@
+### 0.2.2
+
+- Fix missing sensor data issue
+
 ### 0.2.1
 
 - Support to enable/disable TOE-DG3 data uploading

@@ -79508,11 +79508,9 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       if (opts.verbose != null) {
         this.verbose = opts.verbose;
       }
-      if (opts.enabled) {
+      this.enabled = false;
+      if (opts.enabled != null) {
         this.enabled = opts.enabled;
-      }
-      if (this.enabled == null) {
-        this.enabled = true;
       }
       ASSIGN_DEFAULTS(opts, DEFAULTS);
       /*
@@ -79570,7 +79568,16 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
         if (initErr != null) {
           return done(initErr);
         }
-        return mkdirp(workdir, done);
+        return mkdirp(workdir, function(err){
+          if (err != null) {
+            ERR(err, "failed to initialize sensorweb-uploader");
+          }
+          if (err != null) {
+            return done(err);
+          }
+          INFO("successfully initialize sensorweb-uploader (enabled: " + self.enabled + ")");
+          return done();
+        });
       });
     };
     Uploader.prototype.onCheck = function(){
@@ -79658,16 +79665,19 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       return this.items.push(xs);
     };
     Uploader.prototype.onPack = function(){
-      var items, self, ref$, verbose, workdir, data, text, now, p, b, out, gzip, input, t1, t2;
+      var self, ref$, items, enabled, verbose, workdir, data, text, now, p, b, out, gzip, input, t1, t2;
       if (this.toe3 != null) {
         this.toe3.onPack();
       }
-      items = this.items;
+      ref$ = self = this, items = ref$.items, enabled = ref$.enabled;
       this.items = [];
       if (0 === items.length) {
         return DBG("No data to pack");
       }
-      ref$ = self = this, verbose = ref$.verbose, workdir = ref$.workdir;
+      if (!enabled) {
+        return WARN("ignore " + items.length + " records because of disabled.");
+      }
+      verbose = self.verbose, workdir = self.workdir;
       data = {
         id: this.id,
         profile: this.profile,
