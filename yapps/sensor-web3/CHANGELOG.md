@@ -1,3 +1,7 @@
+### 3.5.3
+
+- Add one more socket server at port 6024 to broadcast the events of sensor-updated and peripheral-updated that apps (e.g. Ironman2) are interested. By default, only broadcast events with peripheral_type `linux`.
+
 ### 3.5.2
 
 - Improve `-o` command-line option to support base64-encoded json string. For example, `-o ^communicator.connections.uno:ewogICJlbmFibGVkIjogdHJ1ZSwKICAidXJsIjogInRjcDovLzEuMS4xLjE6MzAiLAogICJjaGFubmVsIjogbnVsbCwKICAiYnJvYWRjYXN0IjogZmFsc2UKfQo=` is to set `communicator.connections.uno` with following json object:

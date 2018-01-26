@@ -23,6 +23,10 @@
         "uri": "tcp://0.0.0.0:6023",
         "line": true
       },
+      "ps_app_data": {
+        "uri": "tcp://0.0.0.0:6024",
+        "line": true
+      },
       "sb0": {
         "uri": "tcp://0.0.0.0:10011",
         "line": true
@@ -173,14 +177,24 @@
         "enabled": true,
         "server_name": "ps"
       },
-      "sock": {
-        "enabled": true,
-        "s_server_name": "ps_s_data",
-        "p_server_name": "ps_p_data"
-      },
       "storage": {
         "enabled": true,
         "sync_dir": "{{WORK_DIR}}/tmp"
+      },
+      "sock": {
+        "enabled": true,
+        "sensor": {
+          "server_name": "ps_s_data"
+        },
+        "peripheral": {
+          "server_name": "ps_p_data"
+        },
+        "app": {
+          "server_name": "ps_app_data",
+          "p_types": [
+            "linux"
+          ]
+        }
       }
     }
   },
