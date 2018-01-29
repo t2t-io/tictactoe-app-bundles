@@ -84245,7 +84245,7 @@ function uid(len) {
       this.settings = settings != null ? settings : null;
       this.agent = null;
       this.name = name = clazz.name;
-      this.prefix = prefix = "agents[" + name.cyan + "::" + filename.gray + "]";
+      this.prefix = this.fullname = prefix = "agents[" + name.cyan + "::" + filename.gray + "]";
       if (this.settings == null) {
         this.settings = manager.opts.agent_settings[name];
       }
@@ -84492,7 +84492,7 @@ function uid(len) {
       self.modem = new BleModem(opts, function(result){
         return self.atModemFileReceived(result);
       });
-      self.name = "blemodem[" + alias.cyan + "]";
+      self.name = self.fullname = "blemodem[" + alias.cyan + "]";
       self.outgoing = false;
       self.outgoingFilename = null;
       self.cbFileReceived = null;
