@@ -83749,7 +83749,7 @@ function uid(len) {
         prefix = c.prefix;
         bh = blemoHandlerMap[prefix];
         if (bh != null) {
-          WARN(loggingPrefix + ": register blemo[...][" + prefix.yellow + "] but occupied by " + bh.name.red);
+          WARN(loggingPrefix + ": register blemo[...][" + prefix.yellow + "] but occupied by " + bh.fullname.red);
         } else {
           INFO(loggingPrefix + ": register blemo[...][" + prefix.yellow + "] successfully");
           blemoHandlerMap[prefix] = aw;

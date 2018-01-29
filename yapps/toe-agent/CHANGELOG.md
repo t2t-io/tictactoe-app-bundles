@@ -1,6 +1,10 @@
+### 0.4.4
+
+- Use fullname of agent instance to show warning messages.
+
 ### 0.4.3
 
-- Update config.jso with t2t servers.
+- Update config.json with t2t servers.
 
 ### 0.4.2
 
