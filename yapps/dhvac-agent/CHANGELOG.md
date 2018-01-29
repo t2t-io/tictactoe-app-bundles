@@ -1,3 +1,7 @@
+### 0.2.3
+
+- Disable `onUpload` when sensorweb-uploader is disabled
+
 ### 0.2.2
 
 - Fix missing sensor data issue

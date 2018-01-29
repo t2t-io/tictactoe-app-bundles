@@ -79722,8 +79722,11 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       return false;
     };
     Uploader.prototype.onUpload = function(){
-      var me, ref$, upload_interval, uploading, uploaded_at, workdir, verbose, opts, connectivity, now, next, upload_precheck_connectivity, ctx, asyncExecuter, ae, tasks;
-      ref$ = me = this, upload_interval = ref$.upload_interval, uploading = ref$.uploading, uploaded_at = ref$.uploaded_at, workdir = ref$.workdir, verbose = ref$.verbose, opts = ref$.opts, connectivity = ref$.connectivity;
+      var me, ref$, upload_interval, uploading, uploaded_at, workdir, verbose, opts, enabled, connectivity, now, next, upload_precheck_connectivity, ctx, asyncExecuter, ae, tasks;
+      ref$ = me = this, upload_interval = ref$.upload_interval, uploading = ref$.uploading, uploaded_at = ref$.uploaded_at, workdir = ref$.workdir, verbose = ref$.verbose, opts = ref$.opts, enabled = ref$.enabled, connectivity = ref$.connectivity;
+      if (!enabled) {
+        return;
+      }
       if (uploading) {
         return this.onUploading();
       }
