@@ -1,3 +1,7 @@
+### 0.4.3
+
+- Update config.jso with t2t servers.
+
 ### 0.4.2
 
 - Yapps supports `-o` command-line option to assign JSON object into app's configs.

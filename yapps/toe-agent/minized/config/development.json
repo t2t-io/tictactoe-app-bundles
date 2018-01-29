@@ -55,7 +55,7 @@
     "dg": {
       "enabled": true,
       "verbose": false,
-      "hub": "https://hub3.cestec.jp",
+      "hub": "https://tic-hub.t2t.io",
       "check_interval": 180,
       "pack_interval": 20
     },
@@ -109,7 +109,7 @@
   "filecollector-client": {
     "verbose": true,
     "forwards": [
-      "https://conscious-rest.cestec.jp"
+      "https://fc.t2t.io"
     ]
   },
   "system-info": {
