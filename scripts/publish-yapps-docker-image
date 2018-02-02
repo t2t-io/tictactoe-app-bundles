@@ -62,7 +62,9 @@ function build_all_images {
 	for bundle in atomic minized raw; do
 		build_and_publish ${bundle}
 	done
+	docker tag ${DOCKER_IMAGE_FULLNAME}:${APP_VERSION}-atomic ${DOCKER_IMAGE_FULLNAME}:${APP_VERSION}
 	docker tag ${DOCKER_IMAGE_FULLNAME}:latest-atomic ${DOCKER_IMAGE_FULLNAME}:latest
+	docker push ${DOCKER_IMAGE_FULLNAME}:${APP_VERSION}
 	docker push ${DOCKER_IMAGE_FULLNAME}:latest
 }
 
