@@ -1,3 +1,7 @@
+### 3.5.4
+
+- Up a version to export Docker with port 6024
+
 ### 3.5.3
 
 - Add one more socket server at port 6024 to broadcast the events of sensor-updated and peripheral-updated that apps (e.g. Ironman2) are interested. By default, only broadcast events with peripheral_type `linux`.
