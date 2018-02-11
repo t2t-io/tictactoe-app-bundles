@@ -1,3 +1,7 @@
+### 0.4.5
+
+- Externalize `request` node module.
+
 ### 0.4.4
 
 - Use fullname of agent instance to show warning messages.
