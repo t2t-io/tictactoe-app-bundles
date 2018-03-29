@@ -1,4 +1,4 @@
-### 3.5.5
+### 3.5.6
 
 - Add `process-web-command` to PeripheralService
 
