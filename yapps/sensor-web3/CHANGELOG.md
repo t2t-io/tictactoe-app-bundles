@@ -1,3 +1,7 @@
+### 3.5.5
+
+- Add `process-web-command` to PeripheralService
+
 ### 3.5.4
 
 - Up a version to export Docker with port 6024
@@ -204,7 +208,7 @@ TypeError: Cannot read property 'preFormat' of undefined
 
 ### 3.1.1
 
-- Fix wireless signal sensors 
+- Fix wireless signal sensors
   - from `linux/7F000001/wireless_quality/quality` to `linux/7F000001/wireless_quality/wlan0`
   - from `linux/7F000001/wireless_discarded/discarded` to `linux/7F000001/wireless_discarded/wlan0`
 

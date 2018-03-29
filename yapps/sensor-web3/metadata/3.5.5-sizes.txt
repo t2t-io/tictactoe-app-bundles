@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff   966429 Mar 28 23:24 ./atomic/sensor-web3/app/bundle.js
+-rw-r--r--  1 yagamy  staff   898573 Mar 28 23:24 ./atomic/sensor-web3/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1235388 Mar 28 23:24 ./minized/sensor-web3/app/bundle.js
+-rw-r--r--  1 yagamy  staff   901061 Mar 28 23:24 ./minized/sensor-web3/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1908490 Mar 28 23:23 ./raw/sensor-web3/app/bundle.js
+-rw-r--r--  1 yagamy  staff  2515842 Mar 28 23:23 ./raw/sensor-web3/app/bundle.js.map
