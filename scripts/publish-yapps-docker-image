@@ -76,7 +76,7 @@ function notify_slack {
 	local EMOJI=":ghost:"
 	local MSG_FILE=$(mktemp /tmp/XXXXXX)
 	echo "Publish images for \`${APP_TYPE}.${APP_NAME}\` *${APP_VERSION}* to DockerHub/<https://hub.docker.com/r/${DOCKER_IMAGE_FULLNAME}/tags/|${DOCKER_IMAGE_FULLNAME}>." > ${MSG_FILE}
-	http --check-status --ignore-stdin ${SLACK_NOTIFY_URL} text=@${MSG_FILE} channel="${SLACK_NOTIFY_CHANNEL}" username=${USERNAME} icon_emoji="${EMOJI}" > /dev/null
+	/usr/local/bin/http --check-status --ignore-stdin ${SLACK_NOTIFY_URL} text=@${MSG_FILE} channel="${SLACK_NOTIFY_CHANNEL}" username=${USERNAME} icon_emoji="${EMOJI}" > /dev/null
 	rm -f ${MSG_FILE}
 
 }
