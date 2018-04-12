@@ -1,0 +1,146 @@
+{
+  "web": {
+    "host": "0.0.0.0",
+    "port": 6020,
+    "api": 1,
+    "headless": true,
+    "express_partial_response": false,
+    "express_method_overrid": false,
+    "express_multer": false,
+    "auth": {
+      "password": "abc"
+    }
+  },
+  "storage": {
+    "verbose": false,
+    "data_sync": true
+  },
+  "storage-ws": {
+    "verbose": false
+  },
+  "legacy": {
+    "protocol": "conscious-sb-v1",
+    "source": "sensorboard0",
+    "verbose": false
+  },
+  "hub-ws": {
+    "verbose": true,
+    "handler": {
+      "hello": "world"
+    }
+  },
+  "test-ws": {
+    "verbose": true,
+    "handler": {
+      "hello": "world"
+    }
+  },
+  "communicator": {
+    "verbose": false,
+    "connections": {
+      "sensorboard0": {
+        "enabled": true,
+        "url": "tcp://127.0.0.1:10001",
+        "channel": null
+      },
+      "blemoboard0": {
+        "enabled": true,
+        "url": "tcp://127.0.0.1:10004",
+        "channel": null
+      }
+    }
+  },
+  "mcs4u": {
+    "common_packet_configs": {
+      "verbose-message": {
+        "enabled": true,
+        "filters": []
+      },
+      "status-update": {
+        "enabled": true,
+        "board_type": "aaa",
+        "board_id": "bbb"
+      },
+      "pipe-binary-stream": {
+        "enabled": false
+      },
+      "pipe-text-stream": {
+        "enabled": false
+      },
+      "information-query": {
+        "enabled": false
+      }
+    },
+    "pipes": {
+      "blemoboard0": {
+        "work_opts": {
+          "initial_empties": 5,
+          "regular_empties": 2,
+          "regular_check_time": 30000,
+          "verbose": true
+        },
+        "packet_configs": {
+          "verbose-message": {
+            "enabled": true,
+            "verbose": false,
+            "filters": []
+          },
+          "status-update": {
+            "enabled": true,
+            "verbose": false,
+            "board_type": "blemoboard",
+            "board_id": "ttyO4"
+          },
+          "pipe-binary-stream": {
+            "enabled": true,
+            "verbose": false
+          },
+          "pipe-text-stream": {
+            "enabled": true,
+            "verbose": true
+          },
+          "information-query": {
+            "enabled": true
+          }
+        }
+      }
+    }
+  },
+  "actuator": {
+    "commanders": {
+      "sensorboard0": {
+        "board_type": "sensorboard",
+        "board_id": "ttyO1",
+        "protocol": "conscious-sb-v1",
+        "protocol_opts": {}
+      }
+    }
+  },
+  "system-helpers": {
+    "helpers": {
+      "regular-gc": {
+        "period": 180
+      }
+    }
+  },
+  "linux": {
+    "services": {
+      "iw_parse": {
+        "path": "{{APP_DIR}}/assets/services/iw_parse4.py",
+        "cwd": "{{WORK_DIR}}",
+        "env": {
+          "WIRELESS_CONNECTIVITY_CHECK_PERIOD": 20,
+          "SENSOR_HUB_DOMAIN_NAME": "hub.t2t.io"
+        }
+      },
+      "dummy": {
+        "path": "{{APP_DIR}}/assets/services/dummy.py",
+        "cwd": "{{WORK_DIR}}",
+        "env": {
+          "WIRELESS_CONNECTIVITY_CHECK_PERIOD": 20,
+          "SENSOR_HUB_DOMAIN_NAME": "hub.t2t.io"
+        }
+      }
+    }
+  }
+}
