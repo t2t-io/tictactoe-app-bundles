@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff   962983 Apr 14 11:03 ./atomic/ipcs-io-server/app/bundle.js
+-rw-r--r--  1 yagamy  staff   943423 Apr 14 11:03 ./atomic/ipcs-io-server/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1262096 Apr 14 11:03 ./minized/ipcs-io-server/app/bundle.js
+-rw-r--r--  1 yagamy  staff   945931 Apr 14 11:03 ./minized/ipcs-io-server/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  2280152 Apr 14 11:03 ./raw/ipcs-io-server/app/bundle.js
+-rw-r--r--  1 yagamy  staff  2903185 Apr 14 11:03 ./raw/ipcs-io-server/app/bundle.js.map

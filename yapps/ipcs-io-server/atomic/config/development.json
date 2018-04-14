@@ -53,7 +53,7 @@
   "mcs4u": {
     "common_packet_configs": {
       "verbose-message": {
-        "enabled": true,
+        "enabled": false,
         "filters": []
       },
       "status-update": {
@@ -77,7 +77,7 @@
           "initial_empties": 5,
           "regular_empties": 2,
           "regular_check_time": 30000,
-          "verbose": true
+          "verbose": false
         },
         "packet_configs": {
           "verbose-message": {
