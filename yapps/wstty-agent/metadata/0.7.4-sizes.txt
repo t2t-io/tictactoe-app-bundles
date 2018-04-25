@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff   309956 Apr 25 14:27 ./atomic/wstty-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff   416158 Apr 25 14:27 ./atomic/wstty-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff   460731 Apr 25 14:27 ./minized/wstty-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff   417866 Apr 25 14:27 ./minized/wstty-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff   827751 Apr 25 14:27 ./raw/wstty-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  1132354 Apr 25 14:27 ./raw/wstty-agent/app/bundle.js.map

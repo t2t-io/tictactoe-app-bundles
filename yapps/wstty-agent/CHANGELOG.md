@@ -1,6 +1,11 @@
+### 0.7.4
+
+- Use yapps to load `package.json` instead of pkginfo
+
 ### 0.7.3
 
 - Implement `AGENT_EVENT_HTTP_BY_SERVER`
+- Use symbolic link to solve closure issue (cross-directory)
 
 ### 0.7.2
 
