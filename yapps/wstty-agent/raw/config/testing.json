@@ -1,0 +1,24 @@
+{
+  "system-info": {
+    "verbose": true,
+    "ttt_defaults": {
+      "profile": "misc",
+      "profile_version": "19700101a",
+      "id": "",
+      "sn": "SANDBOX000000",
+      "alias": "UNKNOWN999999"
+    }
+  },
+  "wstty-client": {
+    "url": "http://127.0.0.1:6030",
+    "namespace": "tty",
+    "restart_timeout": 20
+  },
+  "system-helpers": {
+    "helpers": {
+      "regular-gc": {
+        "period": 300
+      }
+    }
+  }
+}
