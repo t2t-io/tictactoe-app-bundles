@@ -1,3 +1,8 @@
+### 0.7.5
+
+- Update timeout from 30s to 120s
+- Improve hostname retrieval on Mac OS X by removing its `lan` postfix (e.g. `grandia.lan`)
+
 ### 0.7.4
 
 - Use yapps to load `package.json` instead of pkginfo
