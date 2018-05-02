@@ -1,3 +1,8 @@
+### 0.7.7
+
+- Re-submit `http-by-server` event when reconnecting to server and server's instance id is not changed
+- Add `request_timeout` and `monitor_timeout` to config.json
+
 ### 0.7.5
 
 - Update timeout from 30s to 120s

@@ -7,7 +7,7 @@
   },
   "description": "N/A",
   "name": "wstty-agent",
-  "version": "0.7.5",
+  "version": "0.7.7",
   "engines": {
     "node": "4.4.7",
     "npm": "2.15.8"

@@ -14,6 +14,12 @@
     "namespace": "tty",
     "restart_timeout": 20
   },
+  "http-by-server": {
+    "v1": {
+      "request_timeout": 60,
+      "monitor_timeout": 120
+    }
+  },
   "system-helpers": {
     "helpers": {
       "regular-gc": {
