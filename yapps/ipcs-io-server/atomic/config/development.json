@@ -29,12 +29,6 @@
       "hello": "world"
     }
   },
-  "test-ws": {
-    "verbose": true,
-    "handler": {
-      "hello": "world"
-    }
-  },
   "communicator": {
     "verbose": false,
     "connections": {

@@ -1,3 +1,8 @@
+### 0.8.5
+
+- Replace dependency to `extendify` with `lodash`
+- Enclosure `livescript` and `source-code-map`
+
 ### 0.8.2
 
 - Parse metadata of sensorboard: `version` and `capabilities`
