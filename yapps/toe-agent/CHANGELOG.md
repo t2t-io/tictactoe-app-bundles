@@ -1,3 +1,7 @@
+### 0.4.6
+
+- Upgrade nodejs from 4.4.7 to 8.11.1 in Docker container.
+
 ### 0.4.5
 
 - Externalize `request` node module.

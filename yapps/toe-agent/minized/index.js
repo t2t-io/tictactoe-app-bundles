@@ -7,6 +7,9 @@
       return process.exit(0);
     };
   }
+  global.yapContext = {
+    module: module
+  };
   app = process.env['APP_BUNDLE_JS'] != null
     ? require(process.env['APP_BUNDLE_JS'])
     : require('./app/bundle');
