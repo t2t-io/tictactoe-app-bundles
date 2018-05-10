@@ -1,3 +1,9 @@
+### 0.5.0
+
+- Add socket.io namespace api to Agent/Jarvis
+- Add frontend page handler for Agent
+- Fix run script
+
 ### 0.4.6
 
 - Upgrade nodejs from 4.4.7 to 8.11.1 in Docker container.

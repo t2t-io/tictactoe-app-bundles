@@ -1,0 +1,6 @@
+-rw-r--r--  1 yagamy  staff  1212474 May 10 23:43 ./atomic/toe-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  1036785 May 10 23:43 ./atomic/toe-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  1503283 May 10 23:43 ./minized/toe-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  1039253 May 10 23:43 ./minized/toe-agent/app/bundle.js.map
+-rw-r--r--  1 yagamy  staff  2365239 May 10 23:43 ./raw/toe-agent/app/bundle.js
+-rw-r--r--  1 yagamy  staff  3036402 May 10 23:43 ./raw/toe-agent/app/bundle.js.map
