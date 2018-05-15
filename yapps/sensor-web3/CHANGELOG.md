@@ -1,3 +1,7 @@
+### 3.5.9
+
+- Fix the bug when sending sensor data update via wss module.
+
 ### 3.5.8
 
 - Fix ps/console-handler crash bug
