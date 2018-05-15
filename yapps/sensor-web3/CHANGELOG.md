@@ -1,3 +1,8 @@
+### 3.5.7
+
+- Improve sensor data emitter to accept dictionary data object, in addition to array of data elements.
+- Fix crash issue when websocket client does not want blemo but SensorWeb3 has enabled blemo service.
+
 ### 3.5.6
 
 - Add `process-web-command` to PeripheralService
