@@ -1,3 +1,7 @@
+### 3.5.8
+
+- Fix ps/console-handler crash bug
+
 ### 3.5.7
 
 - Improve sensor data emitter to accept dictionary data object, in addition to array of data elements.
