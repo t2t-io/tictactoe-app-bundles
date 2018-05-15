@@ -1,3 +1,7 @@
+### 0.5.1
+
+- Add socketio-namespace and frontend-asset to agent/jarvis
+
 ### 0.5.0
 
 - Add socket.io namespace api to Agent/Jarvis
