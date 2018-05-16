@@ -1,6 +1,14 @@
+### 0.5.5
+
+- Re-build app bundle with newer toolchain
+  - browserify, `13.0.0` to `15.2.0`
+  - exorcist, `1.0.0` to `1.0.1`
+  - uglify, `2.6.2` to `2.8.29`
+
 ### 0.5.1
 
 - Add socketio-namespace and frontend-asset to agent/jarvis
+- Add CORS in web/socket.io settings
 
 ### 0.5.0
 
