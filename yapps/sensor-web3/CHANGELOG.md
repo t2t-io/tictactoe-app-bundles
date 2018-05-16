@@ -1,3 +1,10 @@
+### 3.6.0
+
+- Re-build app bundle with newer toolchain
+  - browserify, `13.0.0` to `15.2.0`
+  - exorcist, `1.0.0` to `1.0.1`
+  - uglify, `2.6.2` to `2.8.29`
+
 ### 3.5.9
 
 - Fix the bug when sending sensor data update via wss module.
