@@ -3,6 +3,7 @@
     "host": "0.0.0.0",
     "port": 6020,
     "api": 3,
+    "auth": false,
     "headless": true,
     "express_partial_response": false,
     "express_method_overrid": false,

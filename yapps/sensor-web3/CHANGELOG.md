@@ -1,3 +1,12 @@
+### 3.6.1
+
+- Expose following node modules that are compiled into the app bundle
+  - express
+  - async
+  - uid
+  - body-parser
+  - handlebars
+
 ### 3.6.0
 
 - Re-build app bundle with newer toolchain
