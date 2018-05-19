@@ -7,13 +7,13 @@
   },
   "description": "N/A",
   "name": "toe-agent",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "engines": {
-    "node": "4.4.7"
+    "node": "8.11.1"
   },
   "dependencies": {
     "livescript": "1.4.0",
-    "request": "*",
+    "request": "2.72.0",
     "socket.io": "2.0.4",
     "socket.io-client": "2.0.4",
     "source-map-support": "0.3.2"
@@ -25,7 +25,7 @@
       "eventemitter2": "0.4.14",
       "mkdirp": "0.5.1",
       "moment": "2.10.6",
-      "moment-timezone": "0.5.17",
+      "moment-timezone": "0.5.3",
       "optimist": "0.6.1",
       "uid": "0.0.2",
       "lodash": "4.17.4",
