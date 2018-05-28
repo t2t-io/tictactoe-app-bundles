@@ -1,3 +1,13 @@
+### 0.6.0
+
+- Add/Expose following node modules that are compiled into the app bundle
+  - [prettyjson](https://www.npmjs.com/package/prettyjson), 1.1.3
+  - [semver](https://www.npmjs.com/package/semver), 5.5.0
+  - [yaml_loader](https://github.com/nodeca/js-yaml/blob/master/lib/js-yaml/loader.js), 3.11.0
+  - [yaml_safeLoad](https://github.com/nodeca/js-yaml/blob/master/lib/js-yaml/loader.js#L1598)
+  - [uuid_v1](https://github.com/kelektiv/node-uuid/blob/master/v1.js), 3.2.1
+  - [uuid_v4](https://github.com/kelektiv/node-uuid/blob/master/v4.js)
+
 ### 0.5.6
 
 - Expose following node modules that are compiled into the app bundle
