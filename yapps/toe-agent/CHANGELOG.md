@@ -1,3 +1,7 @@
+### 0.6.1
+
+- Use new package.json to install node_modules from scratch, and bundle.
+
 ### 0.6.0
 
 - Add/Expose following node modules that are compiled into the app bundle
