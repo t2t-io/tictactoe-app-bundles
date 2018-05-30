@@ -1,3 +1,7 @@
+### 0.6.2
+
+- Update to use `request@2.87.0`
+
 ### 0.6.1
 
 - Use new package.json to install node_modules from scratch, and bundle.
