@@ -1,3 +1,30 @@
+### 3.7.3
+
+- Remote (websocket) peripheral-service supports actuator/sensor spec
+- Reject those invalid actuator actions in spec
+
+### 3.7.2
+
+- Update spec by replacing `address` with `path`
+- Let peripheral-service load its spec.yaml by itself
+
+### 3.7.1
+
+- Ensure `js-yaml` is bundled
+
+### 3.7.0
+
+- Add/Expose following node modules that are compiled into the app bundle
+  - [prettyjson](https://www.npmjs.com/package/prettyjson), 1.1.3
+  - [semver](https://www.npmjs.com/package/semver), 5.5.0
+  - [yaml_loader](https://github.com/nodeca/js-yaml/blob/master/lib/js-yaml/loader.js), 3.11.0
+  - [yaml_safeLoad](https://github.com/nodeca/js-yaml/blob/master/lib/js-yaml/loader.js#L1598)
+  - [uuid_v1](https://github.com/kelektiv/node-uuid/blob/master/v1.js), 3.2.1
+  - [uuid_v4](https://github.com/kelektiv/node-uuid/blob/master/v4.js)
+- Support actuator/sensor specification loading from `./spec.yaml`, and verify actuator action request with spec.
+- Webapi `/api/v3/a/[p_type]` to list the identities of all peripheral objects for the `p_type`
+- Webapi `/api/v3/a/[p_type]/[p_id]` to list all supported actuator actions and their acceptable values
+
 ### 3.6.1
 
 - Expose following node modules that are compiled into the app bundle
