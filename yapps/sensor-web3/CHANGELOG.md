@@ -1,3 +1,10 @@
+### 3.7.5
+
+- Update `LIST_PERIPHERAL_TYPES` api with one argument `format`
+  - names
+  - array
+  - tree
+
 ### 3.7.3
 
 - Remote (websocket) peripheral-service supports actuator/sensor spec
