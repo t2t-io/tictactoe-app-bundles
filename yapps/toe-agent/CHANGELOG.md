@@ -1,6 +1,10 @@
+### 0.6.3
+
+- Add new api `list-peripheral-types-in-details` to jarvis in order to read actuator/sensor spec for each peripheral_type.
+
 ### 0.6.2
 
-- Update to use `request@2.87.0`
+- Upgrade [request](https://github.com/request/request/blob/master/CHANGELOG.md) from 2.72.0 to 2.87.0
 
 ### 0.6.1
 
