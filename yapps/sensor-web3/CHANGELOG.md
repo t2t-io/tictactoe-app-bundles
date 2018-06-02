@@ -1,3 +1,10 @@
+### 3.7.6
+
+- Snapshot api supports partial data
+  - `/d` (full data)
+  - `/d/[p_type]` (snapshot for all peripheral objects with same p_type)
+  - `/d/[p_type]/[p_id]` (snapshot for one peripheral object with given p_type and p_id)
+
 ### 3.7.5
 
 - Update `LIST_PERIPHERAL_TYPES` api with one argument `format`
