@@ -1,3 +1,7 @@
+### 3.7.7
+
+- Add data policy for bad sensor data: `reject`, `warn`, `nothing`.
+
 ### 3.7.6
 
 - Snapshot api supports partial data

@@ -166,6 +166,9 @@
   },
   "ps-manager": {
     "verbose": true,
+    "policy": {
+      "bad_sensor_data": "reject"
+    },
     "handlers": {
       "console": {
         "enabled": false,
