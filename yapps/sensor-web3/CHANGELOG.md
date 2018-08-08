@@ -1,3 +1,7 @@
+### 3.7.8
+
+- Add server information object to websocket-client, with serialized system uptime object when EVENT_CONFIGURED
+
 ### 3.7.7
 
 - Add data policy for bad sensor data: `reject`, `warn`, `nothing`.
