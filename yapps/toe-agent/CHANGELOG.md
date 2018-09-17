@@ -1,3 +1,38 @@
+### 0.8.3
+
+- Yapps improve the handling of shutdown re-entrance
+- Yapps move _optimist_ from BaseApp to yapps.ls as entry
+- Yapps move yap-simple-logger in, and code refactorying
+- Yapps add `logger` commands to command-unixsock
+
+### 0.8.1
+
+- Yapps upgrade tcp-socket and unix-socket servers.
+
+### 0.8.0
+
+- Yapps upgrade with pidfile / ppidfile supports
+
+### 0.7.5
+
+- Support DM peripheral object's state/metadata with offline cache and time calibration with uptime
+
+### 0.7.2
+
+- Fix preference merge bug.
+
+### 0.7.1
+
+- Support DM peripheral object's state/metadata. No cache implementation yet.
+
+### 0.7.0
+
+- Support DG offline cache for TimeSeries data
+  - No dynamic pack interval
+  - No dynamic upload interval
+  - No circular buffer in queue implementation (for entire disk size quota management)
+  - No dynamic priority (oldest first, latest first, largest first, ...).
+
 ### 0.6.3
 
 - Add new api `list-peripheral-types-in-details` to jarvis in order to read actuator/sensor spec for each peripheral_type.
