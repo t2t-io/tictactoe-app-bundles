@@ -1,3 +1,11 @@
+### 0.8.5
+
+- Post `linux_boot` peripheral object update to TIC DM server.
+
+### 0.8.4
+
+- Drop data job when it's failed to load from disk or memory, to prevent consuming same job forever due to load error.
+
 ### 0.8.3
 
 - Yapps improve the handling of shutdown re-entrance
