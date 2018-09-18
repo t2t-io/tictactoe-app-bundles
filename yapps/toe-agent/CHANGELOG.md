@@ -1,3 +1,7 @@
+### 0.8.6
+
+- Rollback to use profile_version as version of the peripheral object `linux_boot`.
+
 ### 0.8.5
 
 - Post `linux_boot` peripheral object update to TIC DM server.

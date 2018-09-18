@@ -91018,7 +91018,7 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       }
     };
     Uploader.prototype.emitLinuxBootPeripheralObject = function(){
-      var self, ref$, linux_boot_submitted, ticc, info, now, uptime, boots, profile_boots;
+      var self, ref$, linux_boot_submitted, ticc, info, now, uptime, boots;
       ref$ = self = this, linux_boot_submitted = ref$.linux_boot_submitted, ticc = ref$.ticc;
       if (linux_boot_submitted) {
         return;
@@ -91027,9 +91027,8 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
       info = lodash_merge({}, ticc.systemInfo.toJson());
       now = ticc.uptime.now();
       uptime = now.uptime, boots = now.boots;
-      profile_boots = info.ttt.profile_boots;
       info['uptime'] = lodash_merge({}, now);
-      info['version'] = boots + "." + process.pid;
+      info['version'] = info.ttt.profile_version;
       delete info['interfaces'];
       delete info['iface'];
       now.epoch = now.epoch - uptime;
