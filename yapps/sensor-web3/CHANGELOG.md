@@ -1,3 +1,7 @@
+### 3.9.1
+
+- Upgrade docker base image from `4.4.7-alpine` to `8.12.0-alpine` in order to support ES6
+
 ### 3.9.0
 
 - SensorWeb directly loads peripheral-service classes that are specified in the environment variable `YAPPS_EXTRA_PERIPHERAL_SERVICES`
