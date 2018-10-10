@@ -1,3 +1,34 @@
+### 3.9.0
+
+- SensorWeb directly loads peripheral-service classes that are specified in the environment variable `YAPPS_EXTRA_PERIPHERAL_SERVICES`
+
+One example: https://github.com/t2t-io/toe-example-plugins/blob/master/plugins/ps-demo1/src/service.js
+
+```text
+$ git clone https://github.com/t2t-io/toe-example-plugins /tmp/toe-example-plugins
+$ cd [SENSORWEB3 Directory]
+$ YAPPS_EXTRA_PERIPHERAL_SERVICES=/tmp/toe-example-plugins/plugins/ps-demo1/src/service.js node ./index.js
+```
+
+### 3.8.4
+
+- Fix infinite timer when tcp-connection is always failed to establish
+
+### 3.8.3
+
+- Yapps improve the handling of shutdown re-entrance
+- Yapps move _optimist_ from BaseApp to yapps.ls as entry
+- Yapps move yap-simple-logger in, and code refactorying
+- Yapps add `logger` commands to command-unixsock
+
+### 3.8.1
+
+- Yapps upgrade tcp-socket and unix-socket servers.
+
+### 3.8.0
+
+- Yapps upgrade with pidfile / ppidfile supports
+
 ### 3.7.8
 
 - Add server information object to websocket-client, with serialized system uptime object when EVENT_CONFIGURED
