@@ -1,4 +1,4 @@
-FROM node:8.11.1-alpine
+FROM node:8.12.0-alpine
 ENV TOE_APP_WORKDIR /yapps
 WORKDIR ${TOE_APP_WORKDIR}
 ADD . ${TOE_APP_WORKDIR}
