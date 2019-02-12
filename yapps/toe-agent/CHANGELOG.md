@@ -1,3 +1,46 @@
+### 0.9.5
+
+- Update node/peripherals with single HTTP POST request in dm-po-uploader.
+- Update Node with following information
+  - macaddr_eth, from environment variable `YAPPS_DM_NODE_MACADDR_ETH`
+  - macaddr_usb, from environment variable `YAPPS_DM_NODE_MACADDR_USB`
+  - macaddr_wlan, from environment variable `YAPPS_DM_NODE_MACADDR_WLAN`
+  - macaddr_ble, from environment variable `YAPPS_DM_NODE_MACADDR_BLE`
+  - macaddr_blemo, from peripheral object `blemo` if available
+  - version, from environment variable `BOARD_BASE_VERSION`
+
+### 0.9.2
+
+- Support restart timer in dg-ts-uploader. By default, the restart timeout is `http_operation_timeout` + 5 seconds.
+
+### 0.9.1
+
+- Fix infinite timer when tcp-connection is always failed to establish
+
+### 0.9.0
+
+- Fix crash when id equals to sn in dm-po-uploader.
+
+### 0.8.9
+
+- API: `/api/v3/a` to list all active agents.
+
+### 0.8.8
+
+- DG: uploader supports finalization by flushing memory cached data to backend storage with serialization
+- DM: uploader supports finalization by flushing memory cached data to backend storage with serialization
+
+### 0.8.7
+
+- DG: uploader supports dynamic pack-interval based on the number of local cache files for time-series data
+  - min interval of packing sensor archive is 30s
+  - max interval of packing sensor archive is 1200s
+  - incremental ratio is 20%
+- DG: uploader supports boost mode.
+  - At boost mode, the interval of packing sensor archive is always 10s
+  - The max period for boost mode is 25 minutes ([Pomodoros](https://en.wikipedia.org/wiki/Pomodoro_Technique))
+  - Web-api: `http :6040/api/v3/ticc/uploaders/dg-ts/perform/boost-upload period:=62`
+
 ### 0.8.6
 
 - Rollback to use profile_version as version of the peripheral object `linux_boot`.
