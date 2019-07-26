@@ -168,8 +168,8 @@
     "verbose": true,
     "policy": {
       "bad_sensor_data": "reject",
-      "schema_strict_sensor_type": true,
-      "schema_strict_sensor_id": true
+      "schema_strict_sensor_type": false,
+      "schema_strict_sensor_id": false
     },
     "handlers": {
       "console": {
