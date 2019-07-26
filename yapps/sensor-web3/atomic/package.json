@@ -7,14 +7,15 @@
   },
   "description": "N/A",
   "name": "sensor-web3",
-  "version": "3.9.1",
+  "version": "3.9.6",
   "engines": {
     "node": "8.11.1"
   },
   "dependencies": {
     "livescript": "1.4.0",
     "socket.io": "2.0.4",
-    "source-map-support": "0.3.2"
+    "source-map-support": "0.3.2",
+    "systeminformation": "4.14.4"
   },
   "yapp": {
     "encloses": {
