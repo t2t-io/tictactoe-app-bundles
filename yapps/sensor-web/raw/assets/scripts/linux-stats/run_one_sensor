@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+function disable_variables {
+	for n in "$@"; do
+		[ "" == "${!n}" ] && eval "export $n=-1" && echo "disable $n"
+	done
+}
+
+disable_variables SYS_STATS_CPU_PERCENTAGE_SENSOR_PERIOD
+disable_variables SYS_STATS_CPU_ALL_PERCENTAGES_SENSOR_PERIOD
+disable_variables SYS_STATS_CPU_TIMES_SENSOR_PERIOD
+disable_variables SYS_STATS_CPU_FREQ_SENSOR_PERIOD
+disable_variables SYS_STATS_VIRTUAL_MEMORY_SENSOR_PERIOD
+disable_variables SYS_STATS_SWAP_MEMORY_SENSOR_PERIOD
+disable_variables SYS_STATS_DISK_PARTITION_SENSOR_PERIOD
+disable_variables SYS_STATS_DISK_USAGE_SENSOR_PERIOD
+disable_variables SYS_STATS_DISK_IO_SENSOR_PERIOD
+disable_variables SYS_STATS_PROCESS_SENSOR_PERIOD
+disable_variables SYS_STATS_SYSTEM_UPTIME_SENSOR_PERIOD
+disable_variables SYS_STATS_NETWORK_IO_SENSOR_PERIOD
+disable_variables SYS_STATS_ADVANCED_NETWORK_IO_SENSOR_PERIOD
+disable_variables SYS_STATS_WIRELESS_SENSOR_PERIOD
+# disable_variables SYS_STATS_CURL_HTTP_STAT_SENSOR_PERIOD
+
+export SYS_STATS_PROCESS_SENSOR_DISABLED_FIELDS="num_threads,num_fds"
+
+$(dirname $0)/stats

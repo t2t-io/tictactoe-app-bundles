@@ -1,0 +1,182 @@
+#!/bin/bash
+#
+
+function output {
+	stdbuf -oL echo "${PREFIX}$@"
+}
+
+function data {
+	stdbuf -oL echo -e "${PREFIX}|\t0000\tdata\t$@"
+}
+
+function err {
+	echo $@ >&2
+}
+
+function get_adapter {
+	ifconfig -a | grep "^wlan" | awk '{print $1}' | head -n1
+}
+
+function parse_iwlist_scan {
+	## print header lines
+	while IFS= read -r line; do
+		[ "true" == "${WIRELESS_DEBUG}" ] && echo $line >2&
+		## test line contenst and parse as required
+		[[ "$line" =~ Address ]] && mac=${line##*ss: }
+		[[ "$line" =~ \(Channel ]] && { chn=${line##*nel }; chn=${chn:0:$((${#chn}-1))}; }
+		[[ "$line" =~ Frequen ]] && { frq=${line##*ncy:}; frq=${frq%% *}; }
+		[[ "$line" =~ Mode\:Master ]] && {
+			[ "" == "${SSID}" ] && [ "true" == "${WIRELESS_DEBUG}" ] && echo "find empty SSID with quality ${QUALITY}" >&2
+			[ "" != "${SSID}" ] && echo "${SSID}\t${QUALITY}"
+		}
+		[[ "$line" =~ Quality ]] && {
+			qual=${line##*ity=}
+			qual=${qual%% *}
+			lvl=${line##*evel=}
+			lvl=${lvl%% *}
+			local QUALITY=$(echo $qual | awk -F'/' '{print $1}')
+		}
+		[[ "$line" =~ Encrypt ]] && enc=${line##*key:}
+		[[ "$line" =~ ESSID ]] && {
+			local essid=${line##*ID:}
+			local SSID=$(echo $essid | tr '"' ' ' | sed 's/ *//g')
+			[[ "$line" =~ \x00 ]] && {
+				SSID=""
+				[ "true" == "${WIRELESS_DEBUG}" ] && echo "find hidden SSID \\x00, transform it to empty SSID" >&2
+			}
+		}
+	done
+}
+
+function get_ssid {
+	local WIRELESS_IF=$(get_adapter)
+	local TMP=$(mktemp /tmp/XXXXXX)
+	iwconfig ${WIRELESS_IF} > ${TMP} 2>&1
+	local NOT_ASSOCIATED=$(cat ${TMP} | grep "Access Point:" | grep "Not-Associated")
+	if [ "" == "${NOT_ASSOCIATED}" ]; then
+		local SSID=$(iwconfig ${WIRELESS_IF} | grep ESSID | sed 's/^.*ESSID://g' | sed 's/"[ \t]*$//' | sed 's/^"//g')
+		output ${SSID}
+	else
+		output "N/A"
+	fi
+	rm -f ${TMP}
+}
+
+function check_connectivity {
+	local WIRELESS_IF=$(get_adapter)
+
+	# Check the connectivity of data-link layer in OSI (to wireless access-point).
+	#
+	local AP_MAC=$(iwconfig ${WIRELESS_IF} | head -n2 | tail -n1 | tr ' ' '\n' | grep -v '^$' | tail -n1)
+	[ "Not-Associated" == "${AP_MAC}" ] && output "0" && exit 0
+	local SSID=$(iwconfig ${WIRELESS_IF} | grep ESSID | sed 's/^.*ESSID://g' | sed 's/\"//g')
+
+	# Check the LAN connectivity of network/ip layer in OSI (ping to default gateway).
+	#
+	local GATEWAY=$(route -n | grep " UG " | awk '{print $2}')
+	[ "" == "${GATEWAY}" ] && output "1" && exit 0
+	ping -c 1 ${GATEWAY} > /dev/null 2>&1
+	[ "0" != "$?" ] && output "1,${SSID}" && exit 0
+
+	# Check the WAN connectivity of network/ip layer in OSI (ping to 8.8.8.8).
+	#
+	ping -c 1 -W 5 8.8.8.8 > /dev/null 2>&1
+	[ "0" != "$?" ] && output "2,${SSID}" && exit 0
+
+	# Check the health of transport layer in OSI (dns lookup)
+	#
+	echo -e 'server 8.8.8.8\nset timeout=2\nwww.google.com' | nslookup > /dev/null 2>&1
+	[ "0" != "$?" ] && output "3,${SSID}" && exit 0
+
+	output "4,${SSID}"
+	exit 0
+}
+
+function scan_ap {
+	local WIRELESS_IF=$(get_adapter)
+	local TMP_FILE=$(mktemp /tmp/XXXXXX)
+	iwlist ${WIRELESS_IF} scanning | parse_iwlist_scan | sort -u | grep -v "^$" > ${TMP_FILE}
+	IFS=$'\n'
+	local AP_LIST=($(cat ${TMP_FILE}))
+	for line in ${AP_LIST[@]}; do
+		data $line
+	done
+	unset IFS
+	rm -f ${TMP_FILE}
+}
+
+function disconnect_from_ap {
+	local WIRELESS_IF=$(get_adapter)
+	ps aux | grep wpa_supplicant | grep ${WIRELESS_IF} | awk '{print $2}' | xargs -I{} sh -c "kill -9 {}"
+	ps aux | grep dhclient | grep ${WIRELESS_IF} | awk '{print $2}' | xargs -I{} sh -c "kill -9 {}"
+}
+
+
+function connect_to_ap {
+	local CONFIG=$1
+	local TIMEOUT=$2
+	local WIRELESS_IF=$(get_adapter)
+	[ "" == "${CONFIG}" ] && err "missing ssid" && exit 10
+	[ "" == "${TIMEOUT}" ] && TIMEOUT="20"
+
+	data "cleanup"
+	ps aux | grep wpa_supplicant | grep ${WIRELESS_IF} | awk '{print $2}' | xargs -I{} sh -c "kill -9 {}"
+	while [ "" != "$(ps aux | grep wpa_supplicant | grep ${WIRELESS_IF})" ]; do
+		sleep 1
+		data "wait_wpa_down"
+	done
+	ps aux | grep dhclient | grep ${WIRELESS_IF} | awk '{print $2}' | xargs -I{} sh -c "kill -9 {}"
+	while [ "" != "$(ps aux | grep dhclient | grep ${WIRELESS_IF})" ]; do
+		sleep 1
+		data "wait_dhcp_down"
+	done
+
+	data "gen_secret"
+	nice -n -5 wpa_supplicant -t -dd -Dwext -i ${WIRELESS_IF} -c${CONFIG} -f/tmp/wireless.log -B > /dev/null 2>&1
+
+	local TIMES=0
+	while [ "" != "$(iwconfig ${WIRELESS_IF} | head -n1 | grep 'unassociated')" ]; do
+		sleep 1
+		TIMES=$(($TIMES+1))
+		if [ "${TIMES}" -gt ${TIMEOUT} ]; then
+			err "handshake timeout, more than ${TIMEOUT} seconds"
+			exit 12
+		fi
+		data "handshake:${TIMES}"
+	done
+
+	while [ "" == "$(ifconfig ${WIRELESS_IF} | grep 'BROADCAST' | grep 'RUNNING')" ]; do
+		sleep 1
+		TIMES=$(($TIMES+1))
+		if [ "${TIMES}" -gt ${TIMEOUT} ]; then
+			err "authentication timeout, more than ${TIMEOUT} seconds"
+			exit 13
+		fi
+		data "auth:${TIMES}"
+	done
+
+	data "renew_dhcp"
+	dhclient ${WIRELESS_IF}
+
+	local IP_ADDR=$(ifconfig ${WIRELESS_IF} | grep "inet addr" | awk '{print $2}' | sed 's/addr://g')
+	data "done:${IP_ADDR}"
+	local PROFILE_DATA_DIR="${YS_DIR}/profiles/${BOARD_PROFILE}"
+	local PROFILE_WPA_CONF="${PROFILE_DATA_DIR}/wpa.config"
+	mkdir -p ${PROFILE_DATA_DIR}
+	cp ${CONFIG} ${PROFILE_DATA_DIR}/wpa.config
+	exit 0
+}
+
+CMD=$1
+shift
+
+[ "" == "${CMD}" ] && echo "missing command" && exit 1
+[ "" == "${REMOTE}" ] && ${CMD} $@ && exit $?
+
+NAME=$(basename $0)
+TMP=$(mktemp /tmp/XXXXXX)
+scp -q $0 root@${REMOTE}:/tmp && ssh root@${REMOTE} "chmod +x /tmp/${NAME} && export PREFIX='SSH ' && /tmp/${NAME} ${CMD} $@" > ${TMP} 2>&1
+CODE=$?
+cat ${TMP} | grep -v "^SSH" >&2
+cat ${TMP} | grep "^SSH " | sed 's/^SSH\ //g' && rm -f ${TMP}
+exit ${CODE}

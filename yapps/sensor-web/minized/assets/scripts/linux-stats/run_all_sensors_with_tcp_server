@@ -1,0 +1,10 @@
+#!/bin/bash
+#
+CURRENT=$(pwd)
+cd $(dirname $0)
+ROOT=$(pwd)
+cd ${CURRENT}
+export USE_STDOUT_AS_DATA=true
+COMMAND="socat tcp-l:6025,fork exec:${ROOT}/stats"
+echo ${COMMAND}
+${COMMAND}

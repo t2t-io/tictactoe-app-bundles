@@ -1,0 +1,319 @@
+{
+  "web": {
+    "host": "0.0.0.0",
+    "port": 6020,
+    "api": 3,
+    "auth": false,
+    "headless": true,
+    "express_partial_response": false,
+    "express_method_overrid": false,
+    "express_multer": false
+  },
+  "sock": {
+    "verbose": false,
+    "servers": {
+      "ps": {
+        "uri": "tcp://0.0.0.0:6021",
+        "line": true
+      },
+      "ps_s_data": {
+        "uri": "tcp://0.0.0.0:6022",
+        "line": true
+      },
+      "ps_p_data": {
+        "uri": "tcp://0.0.0.0:6023",
+        "line": true
+      },
+      "ps_app_data": {
+        "uri": "tcp://0.0.0.0:6024",
+        "line": true
+      },
+      "sb0": {
+        "uri": "tcp://0.0.0.0:10011",
+        "line": true
+      },
+      "bm0": {
+        "uri": "tcp://0.0.0.0:10014",
+        "line": true
+      },
+      "bm1": {
+        "uri": "tcp://0.0.0.0:10024",
+        "line": true
+      },
+      "stats": {
+        "uri": "tcp://0.0.0.0:10020",
+        "line": true
+      },
+      "sb0_monitor": {
+        "uri": "unix:///tmp/yap/{{APP_NAME}}.sb0.sock",
+        "line": true
+      },
+      "bm0_monitor": {
+        "uri": "unix:///tmp/yap/{{APP_NAME}}.bm0.sock",
+        "line": true
+      }
+    }
+  },
+  "communicator": {
+    "verbose": false,
+    "connections": {
+      "sb0": {
+        "enabled": false,
+        "url": "tcp://127.0.0.1:10011",
+        "channel": null,
+        "broadcast": false
+      },
+      "bm0": {
+        "enabled": false,
+        "url": "tcp://127.0.0.1:10014",
+        "channel": null,
+        "broadcast": true
+      },
+      "bm1": {
+        "enabled": false,
+        "url": "tcp://0.0.0.0:10014",
+        "channel": null,
+        "broadcast": true
+      },
+      "stats": {
+        "enabled": false,
+        "url": "exec://{{APP_DIR}}/assets/scripts/linux-stats/stats",
+        "channel": null,
+        "broadcast": false,
+        "peer": "stderr",
+        "args": [
+          "a",
+          "b",
+          "c",
+          "d"
+        ],
+        "cwd": "{{WORK_DIR}}",
+        "env": {
+          "WAIT_TIME": 10,
+          "SYS_STATS_CPU_PERCENTAGE_SENSOR_PERIOD": 10,
+          "SYS_STATS_CPU_ALL_PERCENTAGES_SENSOR_PERIOD": 10,
+          "SYS_STATS_CPU_TIMES_SENSOR_PERIOD": 10,
+          "SYS_STATS_CPU_FREQ_SENSOR_PERIOD": 5,
+          "SYS_STATS_VIRTUAL_MEMORY_SENSOR_PERIOD": 60,
+          "SYS_STATS_SWAP_MEMORY_SENSOR_PERIOD": 28800,
+          "SYS_STATS_DISK_PARTITION_SENSOR_PERIOD": 86400,
+          "SYS_STATS_DISK_USAGE_SENSOR_PERIOD": 300,
+          "SYS_STATS_DISK_IO_SENSOR_PERIOD": 300,
+          "SYS_STATS_PROCESS_SENSOR_PERIOD": 8,
+          "SYS_STATS_PROCESS_SENSOR_EXTRA_KEYWORDS": "sandbox",
+          "SYS_STATS_PROCESS_SENSOR_DISABLED_FIELDS": "num_threads,num_fds",
+          "SYS_STATS_SYSTEM_UPTIME_SENSOR_PERIOD": 120,
+          "SYS_STATS_NETWORK_IO_SENSOR_PERIOD": 60,
+          "SYS_STATS_ADVANCED_NETWORK_IO_SENSOR_PERIOD": 60,
+          "SYS_STATS_WIRELESS_SENSOR_PERIOD": 5,
+          "SYS_STATS_CURL_HTTP_STAT_SENSOR_PERIOD": 60,
+          "SYS_STATS_CURL_HTTP_STAT_SENSOR_URL": "https://fc.t2t.io"
+        }
+      }
+    }
+  },
+  "tcp-proxy": {
+    "verbose": false,
+    "scripts": {
+      "guess_metadata": "{{APP_DIR}}/assets/scripts/tcp-proxy/guess-communicator-metadata"
+    },
+    "bridges": {
+      "sb0": {
+        "metadata": {
+          "guess": true,
+          "defaults": {
+            "device": "/dev/ttySENSOR0",
+            "baudrate": 1157600
+          }
+        }
+      },
+      "bm0": {
+        "metadata": {
+          "guess": true,
+          "defaults": {
+            "device": "/dev/ttyBLEP0",
+            "baudrate": 38400
+          }
+        }
+      },
+      "bm1": {
+        "metadata": {
+          "guess": true,
+          "defaults": {
+            "device": "/dev/ttyBLEP1",
+            "baudrate": 38400
+          }
+        }
+      },
+      "stats": {
+        "metadata": {
+          "guess": false,
+          "defaults": {
+            "device": "{{APP_DIR}}/assets/scripts/linux-stats/stats",
+            "baudrate": 99999999
+          }
+        }
+      }
+    }
+  },
+  "system-helpers": {
+    "helpers": {
+      "regular-gc": {
+        "period": 180
+      },
+      "dump-info-service": {}
+    }
+  },
+  "ps-manager": {
+    "verbose": true,
+    "policy": {
+      "bad_sensor_data": "reject",
+      "schema_strict_sensor_type": false,
+      "schema_strict_sensor_id": false
+    },
+    "handlers": {
+      "console": {
+        "enabled": false,
+        "excluded_p_types": [
+          "mainboard",
+          "sensorboard"
+        ]
+      },
+      "debug": {
+        "enabled": true,
+        "server_name": "ps"
+      },
+      "storage": {
+        "enabled": true,
+        "sync_dir": "{{WORK_DIR}}/tmp"
+      },
+      "sock": {
+        "enabled": true,
+        "sensor": {
+          "server_name": "ps_s_data"
+        },
+        "peripheral": {
+          "server_name": "ps_p_data"
+        },
+        "app": {
+          "server_name": "ps_app_data",
+          "p_types": [
+            "linux"
+          ]
+        }
+      }
+    }
+  },
+  "ps-websocket": {
+    "verbose": false
+  },
+  "linux-stats": {
+    "verbose": false
+  },
+  "linux-wireless": {
+    "enabled": false,
+    "verbose": false,
+    "oui_database": "{{APP_DIR}}/assets/databases/oui.json",
+    "discover_period": 20,
+    "toolkit_script": "{{APP_DIR}}/assets/scripts/linux-wireless/wireless-toolkit"
+  },
+  "system-info": {
+    "remote": "127.0.0.1"
+  },
+  "blemo": {
+    "channel": {
+      "transmission_interval": 350,
+      "transmission_trigger": "/sys/class/leds/beaglebone:blue:usr3",
+      "characteristic": "FF01",
+      "queues": {}
+    },
+    "mcs4u": {
+      "common_packet_configs": {
+        "verbose-message": {
+          "enabled": true,
+          "filters": []
+        },
+        "status-update": {
+          "enabled": true,
+          "board_type": "aaa",
+          "board_id": "bbb"
+        },
+        "pipe-binary-stream": {
+          "enabled": false
+        },
+        "pipe-text-stream": {
+          "enabled": false
+        },
+        "information-query": {
+          "enabled": false
+        }
+      },
+      "pipes": {
+        "bm0": {
+          "work_opts": {
+            "initial_empties": 5,
+            "regular_empties": 2,
+            "regular_check_time": 30000,
+            "verbose": false
+          },
+          "packet_configs": {
+            "verbose-message": {
+              "enabled": true,
+              "verbose": false,
+              "filters": []
+            },
+            "status-update": {
+              "enabled": true,
+              "verbose": false,
+              "board_type": "nordicboard",
+              "board_id": "ttyO1"
+            },
+            "pipe-binary-stream": {
+              "enabled": true,
+              "verbose": false
+            },
+            "pipe-text-stream": {
+              "enabled": true,
+              "verbose": true
+            },
+            "information-query": {
+              "enabled": true
+            }
+          }
+        },
+        "bm1": {
+          "work_opts": {
+            "initial_empties": 5,
+            "regular_empties": 2,
+            "regular_check_time": 30000,
+            "verbose": false
+          },
+          "packet_configs": {
+            "verbose-message": {
+              "enabled": true,
+              "verbose": false,
+              "filters": []
+            },
+            "status-update": {
+              "enabled": true,
+              "verbose": false,
+              "board_type": "nordicboard",
+              "board_id": "ttyO8"
+            },
+            "pipe-binary-stream": {
+              "enabled": true,
+              "verbose": false
+            },
+            "pipe-text-stream": {
+              "enabled": true,
+              "verbose": true
+            },
+            "information-query": {
+              "enabled": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
