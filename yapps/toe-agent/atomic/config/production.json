@@ -35,6 +35,9 @@
       "invoke_webapi": true
     },
     "enabled": true,
+    "handshakes": {
+      "remote_system_uptime": false
+    },
     "wss": {
       "server": "http://127.0.0.1:6020",
       "user": "admin",
@@ -53,18 +56,46 @@
     }
   },
   "tic-client": {
-    "dg": {
-      "enabled": true,
-      "verbose": false,
-      "hub": "https://tic-hub.t2t.io",
-      "check_interval": 180,
-      "pack_interval": 20
-    },
-    "dm": {
-      "enabled": true,
-      "verbose": false,
-      "server": "https://tic-dm.t2t.io",
-      "use_sn_as_id": false
+    "uploaders": {
+      "dg-ts": {
+        "enabled": true,
+        "server": "https://tic-hub.t2t.io",
+        "configs": {
+          "verbose": false,
+          "console_appender_verbose": false,
+          "queue_check_interval": 500,
+          "queue_consume_interval": 5000,
+          "queue_store_interval": 90000,
+          "queue_verbose": false,
+          "producer_pack_interval_offline_incremental": 20,
+          "producer_pack_interval_min": 30,
+          "producer_pack_interval_max": 1200,
+          "http_operation_timeout": 60
+        }
+      },
+      "dg-ss": {
+        "enabled": false,
+        "server": "https://tic-hub.t2t.io",
+        "configs": {
+          "verbose": true,
+          "queue_check_interval": 500,
+          "queue_consume_interval": 2500,
+          "queue_store_interval": 30000,
+          "http_operation_timeout": 60
+        }
+      },
+      "dm-po": {
+        "enabled": true,
+        "server": "https://tic-dm.t2t.io",
+        "configs": {
+          "verbose": true,
+          "queue_check_interval": 500,
+          "queue_consume_interval": 800,
+          "queue_store_interval": 3000,
+          "http_operation_timeout": 60,
+          "use_sn_as_id": true
+        }
+      }
     }
   },
   "agent-manager": {

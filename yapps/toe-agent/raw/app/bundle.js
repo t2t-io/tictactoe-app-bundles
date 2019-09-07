@@ -72631,6 +72631,7 @@ module.exports = exports = require('yap-require-hook').addReference(require('./l
   };
   TRANSFORM_BOOLEAN = function(object, dir){
     var tokens, k, x, i$, len$, y;
+    console.log("TRANSFORM_BOOLEAN: dir => " + dir);
     tokens = dir.split(".");
     tokens.shift();
     if (tokens.length === 0) {
