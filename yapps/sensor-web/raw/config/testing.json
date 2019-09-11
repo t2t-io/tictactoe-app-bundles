@@ -168,8 +168,12 @@
     "verbose": true,
     "policy": {
       "bad_sensor_data": "reject",
+      "schema_strict_peripheral_object": true,
       "schema_strict_sensor_type": false,
-      "schema_strict_sensor_id": false
+      "schema_strict_sensor_id": false,
+      "schema_strict_actuator_type": true,
+      "schema_strict_actuator_id": true,
+      "actuator_action_timeout": 20
     },
     "handlers": {
       "console": {
