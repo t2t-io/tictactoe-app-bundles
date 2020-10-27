@@ -16,7 +16,7 @@
     "socket.io": "2.2.0",
     "socket.io-client": "2.2.0",
     "source-map-support": "0.3.2",
-    "systeminformation": "4.14.4"
+    "systeminformation": "4.27.11"
   },
   "yapp": {
     "encloses": {
